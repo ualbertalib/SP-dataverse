@@ -461,7 +461,7 @@
       <collection>OGDE</collection>
     </collections>
   </group>
-  <group name="WESTERN" alias="uwo" title="The University of Western Ontario">
+  <group name="WESTERN" alias="uwo" title="Western University">
     <patterns>
       <pattern>129.100.*.*</pattern>
       <pattern>216.17.113.145</pattern>
