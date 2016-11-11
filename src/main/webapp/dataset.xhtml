@@ -508,7 +508,7 @@
 
                         </ui:fragment>
 
-                        <p:tabView id="tabView" widgetVar="content" activeIndex="#{DatasetPage.selectedTabIndex}"
+                        <p:tabView id="tabView" onTabChange="handleTabChange(index)" widgetVar="content" activeIndex="#{DatasetPage.selectedTabIndex}"
                                    rendered="#{empty DatasetPage.editMode or (DatasetPage.editMode == 'METADATA' or DatasetPage.editMode == 'LICENSE')}">
                             <p:ajax event="tabChange" listener="#{DatasetPage.tabChanged}" oncomplete="bind_bsui_components();" update="@this" />
                             <p:tab id="dataFilesTab" title="#{bundle.files}" rendered="#{!DatasetPage.workingVersion.deaccessioned and
@@ -528,9 +528,9 @@
                                         <span class="glyphicon glyphicon-pencil"/> #{bundle['file.dataFilesTab.metadata.addBtn']}
                                     </p:commandLink>                                   
                                     <div class="btn-group" jsf:rendered="#{DatasetPage.dataset.released}" >
-                                        <button class="btn btn-default dropdown-toggle" type="button" styleClass="btn btn-default" data-toggle="dropdown">
+                                        <button class="btn btn-default dropdown-toggle" id="metadataDropDown"  type="button" styleClass="btn btn-default" data-toggle="dropdown" style="display:none;">
                                             <span class="glyphicon glyphicon-export"/> #{bundle['dataset.exportBtn']} <span class="caret"/></button>
-                                        <ul class="dropdown-menu" role="menu">
+                                        <ul class="dropdown-menu"  role="menu">
                                             <ui:repeat var="exporter" value="#{DatasetPage.exporters}">
                                                 <li>
                                                     <h:outputLink value="#{exporter[1]}" target="_blank">
@@ -1585,8 +1585,30 @@
                         };
                         Dropbox.choose(options);
                     }
-
-
+                   
+                </script>
+                <script type="text/javascript">
+                    //<![CDATA[
+                    var display_metadataDropDown=true
+                    $( document ).ready(function() {
+                            var tds = document.querySelectorAll('#datasetForm\\:tabView\\:filesTable_data td'), i;
+                            for(i = 0; i < tds.length; ++i) {
+                                if($(tds[i]).find(".file-icon-restricted-block").length){
+                                    display_metadataDropDown=false;
+                                    
+                                };
+                                
+                            }
+                           
+                        });
+                    //]]>
+                    function handleTabChange(){
+                        if(display_metadataDropDown){
+                             setTimeout(function(){
+                                $("#metadataDropDown").show();
+                             },1000) 
+                        }
+                    }
                 </script>
                 <script type="text/javascript">
                     //<![CDATA[
